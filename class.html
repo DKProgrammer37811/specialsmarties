@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Smarties</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/icon.png">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="css/templatemo-style.css">
+<style>
+    body{
+        background-color: #f4ffca;
+    }
+    h2 {
+        text-align: center;
+        margin-top: 30px;
+        color: #1d4ed8;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+    }
+
+    .form-container {
+        max-width: 600px;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin: 30px auto;
+    }
+
+    label {
+        font-weight: 500;
+        color: #1e40af;
+    }
+
+    input, textarea {
+        border: 2px solid #1e40af;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+        box-shadow: 0 0 8px rgba(29, 78, 216, 0.5);
+        border-color: #2563eb;
+    }
+
+    #submitButton {
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    #submitButton:hover {
+        background-color: #1e40af;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 15px rgba(29, 78, 216, 0.2);
+    }
+
+    #submitButton:active {
+        transform: scale(0.95);
+        background-color: #1e3a8a;
+    }
+
+    #submitButton:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background: rgba(255, 255, 255, 0.15);
+        transition: all 0.6s ease;
+        transform: translate(-50%, -50%) scale(0);
+        border-radius: 50%;
+    }
+
+    #submitButton:active:before {
+        transform: translate(-50%, -50%) scale(1);
+        transition: none;
+    }
+
+    #charCount {
+        color: #2563eb;
+    }
+
+    #submissionMessage {
+        font-weight: 500;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        position: absolute;
+        top: -10px;
+        left: 15px;
+        background-color: white;
+        padding: 0 5px;
+        color: #2563eb;
+        font-size: 0.9em;
+    }
+
+    .form-group input::placeholder, .form-group textarea::placeholder {
+        color: #9ca3af;
+    }
+
+
+    h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2.5rem;
+    color: #1c1c3c;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 10px;
+}
+
+#messagesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.message-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 6px solid #007bff;
+    position: relative;
+    overflow: hidden;
+}
+
+.message-container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 1.2rem;
+}
+
+.message-header h3 {
+    margin: 0;
+    color: #1c1c3c;
+    font-weight: bold;
+}
+
+.message-header h3::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 3px;
+    background-color: #007bff;
+    margin-top: 6px;
+}
+
+p {
+    color: #555;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+p strong {
+    font-weight: bold;
+    color: #1c1c3c;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.dropdown-menu {
+    right: 0;
+    left: auto;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border: none;
+}
+
+.dropdown-item {
+    color: #333;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-item.text-danger:hover {
+    background-color: rgba(255, 77, 77, 0.1);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    #messagesContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .message-container {
+        max-width: 100%;
+    }
+}
+.message-container {
+        background-color: white;
+        border-radius: 8px;
+        padding: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        transition: transform 0.3s ease;
+        /* Ensure text wraps correctly without overflow */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    .message-container:hover {
+        transform: translateY(-5px);
+        transition: 0.3s;
+    }
+    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .dropdown {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+</style>
+
+<!-- Supabase script and initialization -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    let supabase;
+
+    function initializeSupabase() {
+        const supabaseUrl = 'https://klpqepesgdejrsioqaax.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtscHFlcGVzZ2RlanJzaW9xYWF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjEzMTMwOTMsImV4cCI6MjAzNjg4OTA5M30.8kpvvqd5HYEJC8EsnLsoWOpnh4bklMRREKXygswudao';
+
+        supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        console.log('Supabase client initialized:', supabase);
+    }
+
+    window.onload = function () {
+        initializeSupabase();
+        fetchMessages();
+    };
+</script>
+
+</head>
+<body>
+    <!-- Page Loader -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+
+    </div>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap mr-2"></i>
+                SpecialSmarties
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-1 active" aria-current="page" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-2" href="videos.html">About</a>
+                </li>
+                           </ul>
+            </div>
+        </div>
+    </nav>
+
+ 
+
+    <div class="container-fluid tm-container-content tm-mt-60">
+        <h2>Submit Your Message</h2>
+
+        <div class="form-container">
+            <form id="messageForm">
+                <div class="form-group">
+                    <label for="name">Name (Optional):</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name">
+                </div>
+    
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" class="form-control" required placeholder="Enter subject">
+                </div>
+    
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" class="form-control" rows="5" required maxlength="500" placeholder="Enter your message (max 500 characters)" oninput="updateCharCount()"></textarea>
+                    <small id="charCount">0/500</small>
+                </div>
+    
+                <button type="submit" id="submitButton" class="btn btn-primary w-100">Submit</button>
+                <p id="submissionMessage"></p>
+            </form>
+        </div>
+    
+        <div id="messagesContainer"></div>
+        <div id="message" class="text-center text-danger"></div>
+    
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editForm">
+                            <div class="mb-3">
+                                <label for="updatedName" class="form-label">Update Name</label>
+                                <input type="text" class="form-control" id="updatedName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updatedSubject" class="form-label">Update Subject</label>
+                                <input type="text" class="form-control" id="updatedSubject" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="updatedMessage" class="form-label">Update Message (Max 500 characters)</label>
+                                <textarea class="form-control" id="updatedMessage" rows="3" maxlength="500" required></textarea>
+                                <small class="form-text text-muted" id="charCount">0/500</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+     
+        </div> <!-- row -->
+   
+    <footer class="tm-bg-gray pt-5 pb-3 tm-text-gray tm-footer">
+        <div class="container-fluid tm-container-small">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-12 px-5 mb-5">
+                    <h3 class="tm-text-primary mb-4 tm-footer-title">SpecialSmarties</h3>
+                    <p>SpecialSmarties, made for the grade 11s, to update their ideas</p>
+                </div>
+                
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-12 px-5 mb-3">
+SpecialSmarties
+                </div>
+                <div class="col-lg-4 col-md-5 col-12 px-5 text-right">
+                    Designed by Dheeraj Karthikeyan
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="js/plugins.js"></script>
+    <script>
+        $(window).on("load", function() {
+            $('body').addClass('loaded');
+        });
+    </script>
+    <script>
+        // Fetch and display messages from Supabase
+        async function fetchMessages() {
+            const { data: messages, error } = await supabase
+                .from('messages')
+                .select('*');
+    
+            if (error) {
+                console.error('Error fetching messages:', error);
+                return;
+            }
+    
+            const messagesContainer = document.getElementById('messagesContainer');
+            messagesContainer.innerHTML = ''; // Clear previous messages
+    
+            messages.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message-container');
+                messageDiv.innerHTML = `
+                    <div class="message-header">
+                        <h3>${message.name || 'Anonymous'}</h3>
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-${message.id}" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fas fa-ellipsis-v"></i>
+    </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-${message.id}">
+                                <li><a class="dropdown-item" href="#" onclick="openEditModal(${message.id}, '${message.name}', '${message.subject}', '${message.message}')">Edit</a></li>
+                                <li><a class="dropdown-item text-danger" href="#" onclick="deleteMessage(${message.id})">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p><strong>Subject:</strong> ${message.subject}</p>
+                    <p><strong>Message:</strong> ${message.message}</p>
+                `;
+                messagesContainer.appendChild(messageDiv);
+            });
+        }
+    
+        // Open the Edit Modal
+        function openEditModal(id, name, subject, message) {
+            document.getElementById('updatedName').value = name;
+            document.getElementById('updatedSubject').value = subject;
+            document.getElementById('updatedMessage').value = message;
+            
+            const editForm = document.getElementById('editForm');
+            editForm.onsubmit = (e) => {
+                e.preventDefault();
+                updateMessage(id);
+            };
+            
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+    
+        // Update the message in Supabase
+        async function updateMessage(id) {
+            const updatedName = document.getElementById('updatedName').value;
+            const updatedSubject = document.getElementById('updatedSubject').value;
+            const updatedMessage = document.getElementById('updatedMessage').value;
+    
+            const { data, error } = await supabase
+                .from('messages')
+                .update({ name: updatedName, subject: updatedSubject, message: updatedMessage })
+                .eq('id', id);
+    
+            if (error) {
+                console.error('Error updating message:', error);
+            } else {
+                console.log('Message updated:', data);
+                fetchMessages();
+            }
+    
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+            editModal.hide();
+        }
+    
+        // Delete a message from Supabase
+        async function deleteMessage(id) {
+            const { data, error } = await supabase
+                .from('messages')
+                .delete()
+                .eq('id', id);
+    
+            if (error) {
+                console.error('Error deleting message:', error);
+            } else {
+                console.log('Message deleted:', data);
+                fetchMessages();
+            }
+        }
+    
+        // Update character count for message input
+        function updateCharCount() {
+            const messageLength = document.getElementById('message').value.length;
+            document.getElementById('charCount').innerText = `${messageLength}/500`;
+        }
+    
+        document.getElementById('messageForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+    
+            const name = document.getElementById('name').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+    
+            const { data, error } = await supabase
+                .from('messages')
+                .insert([{ name, subject, message }]);
+    
+            if (error) {
+                document.getElementById('submissionMessage').innerText = 'Error submitting message!';
+                console.error(error);
+            } else {
+                document.getElementById('submissionMessage').innerText = 'Message submitted successfully!';
+                fetchMessages();
+                document.getElementById('messageForm').reset();
+                updateCharCount();
+            }
+        });
+    </script>
+    
+</body>
+</html>
